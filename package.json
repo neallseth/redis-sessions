@@ -1,0 +1,9 @@
+{
+  "dependencies": {
+    "redis": "^4.4.0",
+    "uuid": "^9.0.0"
+  },
+  "devDependencies": {
+    "vercel": "^28.4.9"
+  }
+}
