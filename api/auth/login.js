@@ -6,8 +6,7 @@ import {
 import { createSession } from "../../util/auth-helpers";
 
 export default async function handler(request, response) {
-  // const userID = request.body?.user;
-  const userID = "bob";
+  const userID = request.body?.user;
 
   // set authenticated value based on credential look-up
   const authenticated = true;
