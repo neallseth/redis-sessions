@@ -1,8 +1,10 @@
 import { v4 as genID } from "uuid";
+import Cookies from "js-cookie";
 
-export async function createSession(user, redisClient) {
+export async function createSession(user, redisClient, expTime = 600) {
   const newSessionID = genID();
-  await redisClient.setEx(newSessionID, 600, user);
+  // By default, session expires in 10 minutes
+  await redisClient.setEx(newSessionID, expTime, user);
   return newSessionID;
 }
 
@@ -16,6 +18,13 @@ export async function getSession(sessionID, redisClient) {
     validSession: username ? true : false,
     username,
     sessionID,
+  };
+}
+
+export async function getLocalSession() {
+  return {
+    sessionID: Cookies.get("session-id"),
+    userID: Cookies.get("session-id"),
   };
 }
 

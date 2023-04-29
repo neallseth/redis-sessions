@@ -6,20 +6,13 @@ export function handleErrorResponse(response, message) {
   return;
 }
 
-export function handleSuccessResponse(
-  response,
-  message,
-  customHeaders,
-  responseFields
-) {
-  for (let header in customHeaders) {
-    const headerVal = customHeaders[header];
-    response.setHeader(header, headerVal);
+export function handleSuccessResponse(response, message, cookies) {
+  if (cookies) {
+    response.setHeader("Set-Cookie", cookies);
   }
   response.status(200).json({
     status: "Success",
     message,
-    ...responseFields,
   });
   return;
 }

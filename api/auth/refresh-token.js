@@ -19,22 +19,22 @@ export default async function handler(request, response) {
 
   try {
     const redisClient = await createRedisClient();
-    const { validSession, username, sessionID } = await getSession(
+    const { validSession, userID, sessionID } = await getSession(
       cookieSessionID,
       redisClient
     );
     if (validSession) {
-      const newSessionID = await refreshSession(
-        sessionID,
-        username,
-        redisClient
-      );
+      const newSessionID = await refreshSession(sessionID, userID, redisClient);
+
+      const cookies = [
+        `session-id=${newSessionID}; Max-Age=600`,
+        `session-user=${userID}; Max-Age=600`,
+      ];
+
       handleSuccessResponse(
         response,
-        `Refreshed session for user: ${username}`,
-        {
-          "Set-Cookie": `session-id=${newSessionID}`,
-        }
+        `Refreshed session for user: ${userID}`,
+        cookies
       );
     } else {
       handleErrorResponse(
